@@ -86,7 +86,14 @@ export function Card({ task, index, column }: CardProps) {
         >
           Editar
         </button>
-        <form action={deleteTask}>
+        <form
+          action={deleteTask}
+          onSubmit={(e) => {
+            if (!confirm("Tem certeza que deseja excluir esta tarefa?")) {
+              e.preventDefault();
+            }
+          }}
+        >
           <input type="hidden" name="id" value={task.id} />
           <button
             type="submit"
