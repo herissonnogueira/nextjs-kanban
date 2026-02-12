@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DragDropProvider } from "@dnd-kit/react";
 import { move } from "@dnd-kit/helpers";
 import { Task } from "../generated/prisma/client";
@@ -30,6 +30,10 @@ export function Board({ tasks }: BoardProps) {
   const [items, setItems] = useState(() => groupByStatus(tasks));
   const previousItems = useRef(items);
 
+  useEffect(() => {
+    setItems(groupByStatus(tasks));
+  }, [tasks]);
+
   return (
     <DragDropProvider
       onDragStart={() => {
@@ -43,14 +47,14 @@ export function Board({ tasks }: BoardProps) {
         setItems((items) => move(items, event));
       }}
       onDragEnd={async (event) => {
+        const { source } = event.operation;
+
         if (event.canceled) {
           setItems(previousItems.current);
           return;
         }
 
-        const { source } = event.operation;
-
-        if (source?.type === "column") return;
+        if (!source || source.type === "column") return;
 
         const taskId = String(source.id);
 
