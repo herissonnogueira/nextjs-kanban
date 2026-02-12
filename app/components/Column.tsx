@@ -1,24 +1,23 @@
-import { Task } from "../generated/prisma/client";
-import { Card } from "./Card";
+import { useDroppable } from "@dnd-kit/react";
 
 interface ColumnProps {
+  id: string;
   title: string;
-  status: string;
-  tasks: Task[];
+  index: number;
+  children: React.ReactNode;
 }
 
-export function Column({ title, status, tasks }: ColumnProps) {
+export function Column({ id, title, index, children }: ColumnProps) {
+  const { ref } = useDroppable({
+    id,
+    type: "column",
+    accept: "item",
+  });
+
   return (
-    <div className="bg-gray-200 rounded-lg p-4">
+    <div ref={ref} className="bg-gray-200 rounded-lg p-4 min-h-[200px]">
       <h2 className="text-lg font-semibold mb-4 text-center">{title}</h2>
-      <div className="space-y-3">
-        {tasks.map((task) => (
-          <Card key={task.id} task={task} />
-        ))}
-        {tasks.length === 0 && (
-          <p className="text-gray-500 text-sm text-center">Nenhuma tarefa</p>
-        )}
-      </div>
+      <div className="space-y-3">{children}</div>
     </div>
   );
 }

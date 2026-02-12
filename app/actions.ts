@@ -43,6 +43,15 @@ export async function updateTask(formData: FormData) {
   revalidatePath("/");
 }
 
+export async function moveTask(id: string, status: string) {
+  await prisma.task.update({
+    where: { id },
+    data: { status },
+  });
+
+  revalidatePath("/");
+}
+
 export async function deleteTask(formData: FormData) {
   const id = formData.get("id") as string;
 
