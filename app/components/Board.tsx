@@ -73,7 +73,7 @@ export function Board({ tasks }: BoardProps) {
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {columns.map((column, index) => (
-          <Column key={column.status} id={column.status} title={column.title} index={index}>
+          <Column key={column.status} id={column.status} title={column.title} count={items[column.status as keyof typeof items].length} index={index}>
             {items[column.status as keyof typeof items].map((task, taskIndex) => (
               <Card
                 key={task.id}
