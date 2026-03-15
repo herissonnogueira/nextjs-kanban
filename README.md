@@ -21,10 +21,28 @@ Quadro Kanban full-stack construido com Next.js para organizar tarefas em coluna
 
 ## Como rodar
 
+1. Instale as dependências:
+
 ```bash
 npm install
+```
+
+2. Crie o arquivo `.env` na raiz do projeto com a URL do banco de dados:
+
+```bash
+cp .env.example .env
+```
+
+3. Gere o Prisma Client e crie o banco de dados:
+
+```bash
 npx prisma generate
 npx prisma db push
+```
+
+4. Inicie o servidor de desenvolvimento:
+
+```bash
 npm run dev
 ```
 
